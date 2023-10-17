@@ -49,7 +49,7 @@ def available_actions(state):
 
 
 #%% Q-learning agent
-class QlearningAgent:
+class QAgent:
     '''
         Initialize AI with an empty Q-learning dictionary,
         an alpha (learning) rate, and an epsilon rate.
@@ -71,12 +71,12 @@ class QlearningAgent:
         from taking that action.
         """
         # convert states to tuples of only the edges of the board
-        old_state = tuple(state_edges(old_state))
-        new_state = tuple(state_edges(new_state))
+        old_state_edges = tuple(state_edges(old_state))
+        # new_state_edges = tuple(state_edges(new_state))
 
-        old = self.get_q_value(old_state, action)
+        old = self.get_q_value(old_state_edges, action)
         best_future = self.best_future_reward(new_state)
-        self.update_q_value(old_state, action, old, reward, best_future)
+        self.update_q_value(old_state_edges, action, old, reward, best_future)
     
     def get_q_value(self, state, action):
         """
@@ -111,7 +111,7 @@ class QlearningAgent:
     
     def best_future_reward(self, state):
         """
-        Given a state `state`, consider all possible `(state, action)`
+        Given a state `state` of 4 elements, consider all possible `(state, action)`
         pairs available in that state and return the maximum of all
         of their Q-values.
 
@@ -125,14 +125,16 @@ class QlearningAgent:
         """
 
         # if there are no available actions, return 0
-        if len(available_actions(state)) == 0:
+        actions = available_actions(state)
+        if len(actions) == 0:
             return 0
         
         # if there are available actions, return the max Q-value
         # use 0 as the q-value if the pair is not in the dictionary
         else:
+            simple_state_edges = tuple(state_edges(state))
             # /Q: Am I returning 0 for all actions that are not in the dictionary??
-            return max([self.get_q_value(state, action) for action in available_actions(state)])
+            return max([self.get_q_value(simple_state_edges, action) for action in actions])
 
     
     def choose_action(self, state, epsilon=True):
@@ -171,7 +173,7 @@ def train(n):
     Train an AI by playing `n` games against itself.
     """
     # initialize AI
-    player = QlearningAgent()
+    player = QAgent()
 
     # play `n` games
 
@@ -180,7 +182,6 @@ def train(n):
         print(f"Playing training game {i + 1}")
         # initialize a new game
         game = dominoes.Game.new(starting_domino = dominoes.Domino(6, 6))
-        print ("starting game", game)
         # Keep track of last move made by each of the four players; initialization
         last = {
             0: {"state": None, "action": None},
@@ -191,7 +192,6 @@ def train(n):
 
         # play the game until completion
         while game.result is None:
-            print (game.board)
             # get current state
             state = simple_state(game).copy()
 
@@ -232,11 +232,11 @@ def train(n):
                             new_state,
                             -points
                         )
-                    break
+                break
 
             # If game is continuing, no rewards yet for any of the players
 
-            elif game.result is None:
+            elif last[game.turn]["state"] is not None:
                 player.update(
                     last[game.turn]["state"],
                     last[game.turn]["action"],
@@ -248,6 +248,10 @@ def train(n):
     # Return the trained AI
     return player
 
+#%% playing against agent
+
+def play_against_ai(ai):
+    
 
 
 
@@ -290,3 +294,6 @@ def train(n):
 #         game.valid_moves = tuple(sorted(game.valid_moves, key=lambda m: -counter[m]))
 
 # # %%
+#%%
+
+train(n = 1)

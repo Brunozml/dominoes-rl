@@ -3,6 +3,7 @@ this file is a necessary part of the dominoes_lib package. it is used to
 import all of the modules in the dominoes subdirectory correctly. It follows
 standard python conventions for importing modules.
 
+Q : is this importing from the true dominoes library or from mine? test it easily
 """
 
 from dominoes import players
