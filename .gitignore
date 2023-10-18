@@ -161,3 +161,7 @@ cython_debug/
 
 # Vscode
 .vscode/
+
+
+# other
+.DS_Store
