@@ -17,21 +17,13 @@ The project is currently organized as follows:
 - `play.py` is basically the original CLI in the library. I included it as a normal python script, which can be ran by typing `python play.py` in the command line.
 - `/notebooks` contains jupyter notebooks that experiment with the library. For the moment, its not really working (I can't import the local library)
 - `q_agent.py` is what I'm currently working on. I based the function structure on **CS50's Nim exercise**. I have yet to implement several of the functions. The biggest challenge is to ensure correct functionining with the original dominoes library.
-- `play.py` is an adaptation of the original code, which allows CLI interaction. q_agent not currently supported.
-
----
-
-# notes
-
-My handling of the `dominoes` library and modifications is currently a mess.
-
-How to modify it, integrate it, and use it in my project in real time and without breaking it is unclear to me. I should see more examples (why does open_spiel work with a similar structure but not mine?!)
 
 ---
 
 ## TO-DOs
 
-- [ ] Eventually, rewrite the entire original library by myself so that I can understand what is happening.
-
-- [ ] Write the training and playing functions for my algorithm.
-- [ ] integrate to Github
+- [ ] Eventually, rewrite most of the original library by myself so that I can understand what is happening and what I can change. Use open_spiel and gymnasium as inspiration for project structure.
+- [X] write update_q_values and functions within
+- [X] Write the training and playing functions for my algorithm.
+- [ ] visualize the q-values
+- [ ] setup function to play against my agent
