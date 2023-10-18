@@ -1,5 +1,8 @@
 """
-code adapted from @abdw333
+code adapted from @abdw333. Interact with game
+
+- [ ] missing: include trained q_agent as one of the players
+
 """
 
 #! /usr/bin/env python

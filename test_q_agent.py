@@ -1,3 +1,9 @@
+"""
+Unit tests for q_agent.py
+
+Currently non-functional. Need to learn proper testing procedures.
+"""
+
 import unittest
 from q_agent import *
 import dominoes_lib as dominoes

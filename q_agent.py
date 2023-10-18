@@ -5,31 +5,30 @@ we only consider the edges of the board, and the tiles in the player's hand.
 Missing features:
     - Integration with the dominoes_lib package. I can use the players.py file as inspiration
 
-Missing functionality:
-    - [X] get_q_value function
-    - [X] best_future_reward function
-    - [X] choose_action function
-    - [ ] in train, update Q values with rewards. Notice we have 4 players!
-        I should review my notes on the Q-learning algorithm. Which action,
-        state pairs will be updated? I think it's the last action, state pair.
+Current state of the code:
+    - The agent can play against itself, and learn from it (4 'agents' simultaneously)
 
-action = (tile, left = True/False) , as dictated by the library I have
-state = (left_end, right_end)
+examples of representation:
+    - action = (tile, left = True/False) , as dictated by the library I have
+    - simple_state = (left_end, right_end, player_in_turn, all hands)
+    - state_edges = (left_end, right_end)
 """
 
 import math
 import random
 import dominoes_lib as dominoes
 import copy
-#%% helper functions: should probably be part of library
+#%% helper functions: should probably be part of library ( and not here)
 
 def simple_state(game):
     return [game.board.left_end(), game.board.right_end(), game.turn, game.hands]
 
 def state_edges(state):
     """
-    returns the edges of the board as a tuple
+    returns the edges of the board as a tuple.
     """
+    # TO-DO: re-organize so that there is no need to have "two states".
+    # this is a hacky solution to the problem, but not ideal for debugging.
     return (state[0], state[1])
 
 def available_actions(state):
@@ -251,49 +250,6 @@ def train(n):
 #%% playing against agent
 
 def play_against_ai(ai):
-    
+    raise NotImplementedError
 
-
-
-
-
-
-
-#%% code from probabilistic alpha_beta player
-#     def __call__(self, game):
-#         # do not perform a potentially slow operation if it is
-#         # too early in the game or if there is only one valid move
-#         if len(game.moves) < self._start_move or len(game.valid_moves) == 1:
-#             return
-
-#         if self._sample_size == float('inf'):
-#             # by default consider all hands the other players could possibly have
-#             hands = game.all_possible_hands()
-#         else:
-#             # otherwise obtain a random sample
-#             hands = (game.random_possible_hands() for _ in range(self._sample_size))
-
-#         # iterate over the selected possible hands
-#         counter = collections.Counter()
-#         for h in hands:
-#             # do not modify the original game
-#             game_copy = copy.deepcopy(game)
-
-#             # set the possible hands
-#             game_copy.hands = h
-
-#             # for performance
-#             game_copy.skinny_board()
-
-#             # run alphabeta and record the optimal move
-#             counter.update([
-#                 dominoes.search.alphabeta(game_copy, player=self._player)[0][0]
-#             ])
-
-#         # prefer moves that are more frequently optimal
-#         game.valid_moves = tuple(sorted(game.valid_moves, key=lambda m: -counter[m]))
-
-# # %%
 #%%
-
-train(n = 1)

@@ -9,22 +9,19 @@ q_agent = train(n= 1000)
 # print (q_agent.q)
 # get the Q-values learned by the agent
 q_values = q_agent.q
-
-# extract the states and actions from the Q-values dictionary
-states, actions = zip(*q_values.keys())
-
-# %%
+print(q_values)
 
 
-import dominoes_lib as dominoes
-from q_agent import train
-import matplotlib.pyplot as plt
-import numpy as np
+# %% visualizing Q-values and learning process
 
-q_agent = train(n=1000)
+# inspiration:
+# https://gymnasium.farama.org/tutorials/training_agents/blackjack_tutorial/
+# https://gymnasium.farama.org/tutorials/training_agents/FrozenLake_tuto/
 
-# get the Q-values learned by the agent
+
+# BUGGY!!
 def plot_qvals(q_agent):
+    # get the Q-values learned by the agent
     q_values = q_agent.q
 
     # extract the states and actions from the Q-values dictionary
@@ -67,20 +64,3 @@ def plot_qvals(q_agent):
     plt.show()# get the Q-values learned by the agent
 
     return plt
-    # %%
-
-# clear the terminal before starting the series
-
-import subprocess
-input('Welcome! Proceeding will clear all text from this terminal session.'
-    ' If you are OK with this, press enter to continue.')
-
-# start a single game
-game = dominoes.Game.new()
-PLAYER_SETTINGS = [('Human', None), ('Q-Learning Agent', q_agent), ('Random Agent', dominoes_lib.players.random), ('Q-Learning Agent', q_agent)]
-
-while game is not None:
-
-    # clear the terminal upon starting a new game
-    input('Press enter to begin game {}.'.format(len(series.games) - 1))
-    subprocess.call(['tput', 'reset'])
