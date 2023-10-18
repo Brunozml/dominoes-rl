@@ -20,10 +20,16 @@ The project is currently organized as follows:
 
 ---
 
+# Notes
+
+Currently, my use of the modified `dominoes` library is a mess. I just don't want to be constrained in my project organization by the original authors decisions.
+
+---
+
 ## TO-DOs
 
 - [ ] Eventually, rewrite most of the original library by myself so that I can understand what is happening and what I can change. Use open_spiel and gymnasium as inspiration for project structure.
-- [X] write update_q_values and functions within
-- [X] Write the training and playing functions for my algorithm.
+- [x] write update_q_values and functions within
+- [x] Write the training and playing functions for my algorithm.
 - [ ] visualize the q-values
 - [ ] setup function to play against my agent
