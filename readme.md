@@ -47,7 +47,7 @@ Currently, my use of the modified `dominoes` library is a mess. I just don't wan
 - [ ] standardize agent's functioning in accordence to the pre-existing player's in the library (`__call__` doesn't execute the move, it just re-orders the priority queue)
 - [ ] visualize learning process
 - [ ] run simulations of q_agent against itself, and other agents
-
+- [ ] fix development install issues.
 ---
 
 ---
