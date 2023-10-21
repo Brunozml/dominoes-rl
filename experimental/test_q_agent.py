@@ -5,8 +5,8 @@ Currently non-functional. Need to learn proper testing procedures.
 """
 
 import unittest
-from q_agent import *
-import dominoes_lib as dominoes
+# from q_agent import *
+import dominoes as dominoes
 
 class TestQAgent(unittest.TestCase):
     def test_train(self):

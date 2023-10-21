@@ -1,62 +1,27 @@
-# Dominoes RL Project
+dominoes: a Python library for the game of dominoes, with an accompanying CLI and AI players
+============================================================================================
 
-## In this project, I build on top of [Alan Wagner's](https://dominoes.readthedocs.io/en/latest/#board) Dominoes python library to create reinforecement learning agents that improve through self-play
+[![Build Status](https://travis-ci.org/abw333/dominoes.svg?branch=master)](https://travis-ci.org/abw333/dominoes)
+[![Test Code Coverage](https://codecov.io/gh/abw333/dominoes/branch/master/graph/badge.svg)](https://codecov.io/gh/abw333/dominoes)
+[![PyPI version](https://badge.fury.io/py/dominoes.svg)](https://badge.fury.io/py/dominoes)
+[![Python version](https://img.shields.io/badge/python-3.6%2C%203.7-brightgreen.svg)](https://www.python.org/)
+[![Documentation Status](https://readthedocs.org/projects/dominoes/badge/?version=latest)](https://dominoes.readthedocs.io/en/latest/?badge=latest)
 
-# How to Run
+Dominoes have been around for hundreds of years, and many variations of the game have been played all over the world. This library is based on a popular variation commonly played in San Juan, Puerto Rico, and surrounding municipalities, such as Guaynabo.
 
-- 1. Install repo and requirements
+It is played with a double six set of dominoes. The 28 dominoes are shuffled and distributed evenly between the 4 players, who form 2 teams. The players then take turns placing dominoes in a single chain. The first player to play all their dominoes wins the points in the remaining hands for their team. If the game is stuck, the team with the fewest points remaining in its players' hands wins the points in all the remaining hands. For more details, see the [full documentation](https://dominoes.readthedocs.io/en/latest/#game).
 
-```
-pip install -e .
-```
-
-- 2. `run train_agent.py`
-
-```
-python train_agent.py
-```
-
----
-
-# Project organization
-
-The project is currently organized as follows:
-
-- `/dominoes_lib` includes the most important files in Wagner's library, getting rid of everything I considered unnecessary and therefore distracting.
-- `play.py` is basically the original CLI in the library. I included it as a normal python script, which can be ran by typing `python play.py` in the command line.
-- `/notebooks` contains jupyter notebooks that experiment with the library. For the moment, its not really working (I can't import the local library)
-- `q_agent.py` is what I'm currently working on. I based the function structure on **CS50's Nim exercise**. I have yet to implement several of the functions. The biggest challenge is to ensure correct functionining with the original dominoes library.
-
----
-
-# Notes
-
-Currently, my use of the modified `dominoes` library is a mess. I just don't want to be constrained in my project organization by the original authors decisions.
-
----
-
-## TO-DOs
-
-- [ ] Eventually, rewrite most of the original library by myself so that I can understand what is happening and what I can change. Use open_spiel and gymnasium as inspiration for project structure.
-- [x] write update_q_values and functions within
-- [x] Write the training and playing functions for my algorithm.
-- [x] visualize the q-values (could improve)
-- [x] setup function to play against my agent
-- [ ] standardize agent's functioning in accordence to the pre-existing player's in the library (`__call__` doesn't execute the move, it just re-orders the priority queue)
-- [ ] visualize learning process
-- [ ] run simulations of q_agent against itself, and other agents
-
----
-
----
-
----
-
-# From the original documentation
-
-This library provides a `Game` class to represent a single dominoes game. It is built on top of `Domino`, `Hand`, and `Board` classes. Furthermore, you can string various games together and play up to a target score using the `Series` class.
+This library provides a	``Game`` class to represent a single dominoes game. It is built on top of ``Domino``, ``Hand``, and ``Board`` classes. Furthermore, you can string various games together and play up to a target score using the ``Series`` class.
 
 Additionally, this package provides a command line interface to a dominoes series. Not only is it a great way to play a quick game, but it is also a comprehensive example of how to use this library's API.
+
+The command line interface features various artificial intelligence players. For more information on how these work, see the [full documentation](https://dominoes.readthedocs.io/en/latest/#players).
+
+## Install
+
+```
+$ pip install dominoes
+```
 
 ## Usage Example
 
@@ -192,4 +157,31 @@ $
 
 ## Artificial Intelligence Players
 
-Players are Python objects with a `__call__` method defined to accept a Game instance as the sole argument. Players return None, and leave the input Game unmodified, except for its valid_moves attribute. This value may be replaced with another tuple containing the same moves, but sorted in decreasing order of preference. Players may be applied one after another for easy composability.
+Players are Python objects with a ``__call__`` method defined to accept a Game instance as the sole argument. Players return None, and leave the input Game unmodified, except for its valid_moves attribute. This value may be replaced with another tuple containing the same moves, but sorted in decreasing order of preference. Players may be applied one after another for easy composability.
+
+For more information on how these work, see the [full documentation](https://dominoes.readthedocs.io/en/latest/#players).
+
+```
+>>> import dominoes
+>>> g = dominoes.Game.new()
+>>> g.valid_moves
+(([0|0], True), ([3|4], True), ([1|3], True), ([2|2], True), ([3|3], True), ([2|3], True), ([5|6], True))
+>>> dominoes.players.random(g)
+>>> g.valid_moves
+(([5|6], True), ([1|3], True), ([3|3], True), ([2|2], True), ([0|0], True), ([2|3], True), ([3|4], True))
+```
+
+```
+def double(game):
+    '''
+    Prefers to play doubles.
+
+    :param Game game: game to play
+    :return: None
+    '''
+    game.valid_moves = tuple(sorted(game.valid_moves, key=lambda m: m[0].first != m[0].second))
+```
+
+## Questions, Comments, Ideas?
+
+Feel free to create an [issue](https://github.com/abw333/dominoes/issues) or a [pull request](https://github.com/abw333/dominoes/pulls).

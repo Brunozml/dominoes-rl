@@ -1,22 +1,14 @@
-"""
-code adapted from @abdw333. Interact with game
-
-- [ ] missing: include trained q_agent as one of the players
-
-"""
-
 #! /usr/bin/env python
 
-import dominoes_lib
+import dominoes
 import subprocess
-import sys
 
 # possible strategies for each of the players
 PLAYER_SETTINGS = [
     ('Human', None),
-    ('AI: random', dominoes_lib.players.random),
-    ('AI: omniscient', dominoes_lib.players.omniscient()),
-     ('AI: bota gorda', dominoes_lib.players.bota_gorda),
+    ('AI: random', dominoes.players.random),
+    ('AI: omniscient', dominoes.players.omniscient())
+    ('AI: RL', dominoes.players.QAgent())
 ]
 
 def validated_input(prompt, validate_and_transform, error_message):
@@ -109,7 +101,7 @@ subprocess.call(['tput', 'reset'])
 target_score = validated_input('Up to how many points would you like to play: ',
                                validate_and_transform_target_score,
                                'Please enter a positive integer.')
-series = dominoes_lib.Series(target_score=target_score)
+series = dominoes.Series(target_score=target_score)
 game = series.games[0]
 
 # print out the possible player settings
@@ -131,7 +123,6 @@ for player in range(len(game.hands)):
 
 # the game will be None once the series has ended
 while game is not None:
-
     # clear the terminal upon starting a new game
     input('Press enter to begin game {}.'.format(len(series.games) - 1))
     subprocess.call(['tput', 'reset'])
@@ -149,12 +140,10 @@ while game is not None:
         for player, hand in enumerate(game.hands):
             print('Player {} has {} dominoes in his/her hand.'.format(player, len(hand)))
 
-        ### commented the following line ######################################################
-
-        ### clear the terminal upon starting a new turn
-        # input("It is now player {}'s turn. Press enter"
-        #       " to continue.".format(game.turn))
-        # subprocess.call(['tput', 'reset'])
+        # clear the terminal upon starting a new turn
+        input("It is now player {}'s turn. Press enter"
+              " to continue.".format(game.turn))
+        subprocess.call(['tput', 'reset'])
 
         # print the board so that the player can decide what to play
         print('Board:')
@@ -195,7 +184,7 @@ while game is not None:
                 try:
                     game.make_move(d, end)
                     break
-                except dominoes_lib.EndsMismatchException:
+                except dominoes.EndsMismatchException:
                     # `game.make_move` is transactional - if it fails, the game
                     # state is exactly as it was when the operation started
                     print('The selected domino cannot be played on the'
@@ -219,10 +208,8 @@ while game is not None:
 
         # clear the terminal upon moving to the next
         # turn - no looking at the previous player's hand!
-
-        ### commented out the following lines #######################################
-        # input("Press enter to end player {}'s turn.".format(turn))
-        # subprocess.call(['tput', 'reset'])
+        input("Press enter to end player {}'s turn.".format(turn))
+        subprocess.call(['tput', 'reset'])
 
     # game over - move on to the next game
     print('Game over!')

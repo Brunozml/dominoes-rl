@@ -272,17 +272,6 @@ class Game:
 
         return game
 
-    #%%###########
-    # TODO: implement this
-    @classmethod
-    def available_actions(cls, simple_state):
-        """
-        takes in a simple_state representation of the board (the edges),
-        and returns a list of all possible actions (dominoes) that can be played. it would
-        be nice to be able to also cross check with the player's hand.
-        """
-        raise NotImplementedError
-    #%%
     def skinny_board(self):
         '''
         Converts the board representation used by this game from a regular
