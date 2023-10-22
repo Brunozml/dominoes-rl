@@ -1,6 +1,7 @@
 import collections
 import dominoes
 
+
 class Board:
     '''
     Python class for objects that represent a domino board.
@@ -32,6 +33,7 @@ class Board:
         >>> len(b)
         2
     '''
+
     def __init__(self):
         self.board = collections.deque()
 

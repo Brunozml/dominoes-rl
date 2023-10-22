@@ -12,12 +12,17 @@ import subprocess
 import sys
 
 # possible strategies for each of the players
+
+Q_AGENT = dominoes.players.QAgent()
+Q_AGENT.train(n=1000)
 PLAYER_SETTINGS = [
     ('Human', None),
     ('AI: random', dominoes.players.random),
     ('AI: omniscient', dominoes.players.omniscient()),
-     ('AI: bota gorda', dominoes.players.bota_gorda),
+    ('AI: bota gorda', dominoes.players.bota_gorda),
+    ('AI: Q-learning agent', Q_AGENT)
 ]
+
 
 def validated_input(prompt, validate_and_transform, error_message):
     '''
@@ -44,6 +49,7 @@ def validated_input(prompt, validate_and_transform, error_message):
 
         print(error_message)
 
+
 def validate_and_transform_target_score(target_score):
     '''
     To be used as a `validate_and_transform` function with `validated_input`.
@@ -63,6 +69,7 @@ def validate_and_transform_target_score(target_score):
         return None
 
     return target_score
+
 
 def validate_and_transform_nonnegative_index(sequence):
     '''
@@ -85,6 +92,7 @@ def validate_and_transform_nonnegative_index(sequence):
 
     return _validate_and_transform_nonnegative_index
 
+
 def validate_and_transform_end(end):
     '''
     To be used as a `validate_and_transform` function with `validated_input`.
@@ -99,6 +107,7 @@ def validate_and_transform_end(end):
         return {'l': True, 'r': False}[end]
     except KeyError:
         return None
+
 
 # clear the terminal before starting the series
 input('Welcome! Proceeding will clear all text from this terminal session.'
@@ -124,7 +133,8 @@ for player in range(len(game.hands)):
     player_settings.append(
         PLAYER_SETTINGS[
             validated_input('Select a setting for player {}: '.format(player),
-                            validate_and_transform_nonnegative_index(PLAYER_SETTINGS),
+                            validate_and_transform_nonnegative_index(
+                                PLAYER_SETTINGS),
                             'Please enter a value in: {}'.format(valid_inputs))
         ]
     )
@@ -139,7 +149,8 @@ while game is not None:
     # the player holding the [6|6] plays first, in the first game. in all other
     # games, the outcome of the previous game determines the starting player.
     if len(series.games) == 1:
-        print('Player {} had the [6|6] and made the first move.'.format(game.starting_player))
+        print('Player {} had the [6|6] and made the first move.'.format(
+            game.starting_player))
 
     # game.result will be filled in once the game ends
     while game.result is None:
@@ -151,7 +162,7 @@ while game is not None:
 
         ### commented out the following line ######################################################
 
-        ### clear the terminal upon starting a new turn
+        # clear the terminal upon starting a new turn
         # input("It is now player {}'s turn. Press enter"
         #       " to continue.".format(game.turn))
         # subprocess.call(['tput', 'reset'])
@@ -180,7 +191,8 @@ while game is not None:
             while True:
                 valid_inputs = list(range(len(hand)))
                 d = hand[validated_input('Choose which domino you would like to play: ',
-                                         validate_and_transform_nonnegative_index(hand),
+                                         validate_and_transform_nonnegative_index(
+                                             hand),
                                          'Please enter a value in: {}'.format(valid_inputs))]
 
                 if game.board:
