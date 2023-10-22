@@ -182,7 +182,8 @@ while game.result is None:
             move_tile, side = action
 
             side_word = 'left' if side else 'right'
-            print (f'Player {game.turn} chose to playe {move_tile} on the {side_word} end of the board.')
+            print (f'Player {(game.turn -1)%4} chose to play {move_tile} on the {side_word} end of the board.')
+
             # game.make_move(move_tile, side)
 
         # # print out the selected move

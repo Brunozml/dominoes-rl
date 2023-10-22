@@ -289,14 +289,14 @@ class Game:
         left_end = self.board.left_end()
         right_end = self.board.right_end()
 
-        moves = []
+        moves = set()
         for d in self.hands[self.turn]:
             if left_end in d:
-                moves.append((d, True))
-            # do not double count moves if both of the board's ends have
+                moves.add((d, True))
+            # DO NOT double count moves if both of the board's ends have
             # the same value, and a domino can be placed on both of them
-            if right_end in d and left_end != right_end:
-                moves.append((d, False))
+            if right_end in d and right_end != left_end:
+                moves.add((d, False))
 
         self.valid_moves = tuple(moves)
 

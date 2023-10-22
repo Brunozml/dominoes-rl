@@ -77,6 +77,15 @@ def random(game):
     '''
     game.valid_moves = tuple(sorted(game.valid_moves, key=lambda _: rand.random()))
 
+def random_player(game):
+    '''
+    Prefers moves randomly.
+
+    :param Game game: game to play
+    :return: None
+    '''
+    game.valid_moves = tuple(sorted(game.valid_moves, key=lambda _: rand.random()))
+
 def reverse(game):
     '''
     Reverses move preferences.
@@ -260,14 +269,14 @@ def available_actions(state):
     uses game state to return list of available actions for the current
     player
     """
-    left, right, turn, hands = state
-    actions = set()
+    left_end, right_end, turn, hands = state
+    moves = set()
     for domino in hands[turn]:
-        if left in domino:
-            actions.add((domino, True))
-        if right in domino:
-            actions.add((domino, False))
-    return actions
+        if left_end in domino:
+            moves.add((domino, True))
+        if right_end in domino and left_end != right_end:
+            moves.add((domino, False))
+    return tuple(moves)
 
 
 #%% Q-learning agent
@@ -285,6 +294,7 @@ class QAgent:
         self.q = dict()
         self.alpha = alpha
         self.epsilon = epsilon
+        self.training_error = []
 
     def __call__(self, game):
         """
@@ -293,11 +303,17 @@ class QAgent:
         # get current state
         state = simple_state(game).copy()
 
+        # get all available actions
+        actions = available_actions(state)
+
         # choose an action to take based on the current state
         action = self.choose_action(state, epsilon= False)
-        # unpack action to make move
-        move_tile, side = action
-        game.make_move(move_tile, side)
+        # place the optimal move at the beginning of game.valid_moves,
+        # while leaving the rest of the ordering unchanged. 
+        # 
+        # # !!! probably breaking something here
+        sorted_moves = (action,) + tuple(m for m in actions if m != action)
+        game.valid_moves = sorted_moves
 
         return action
 
@@ -345,6 +361,7 @@ class QAgent:
         # get old value estimate
         new_value_estimate = reward + future_rewards
         self.q[(tuple(state), action)] = old_q + self.alpha * (new_value_estimate - old_q)
+        self.training_error.append(abs(new_value_estimate - old_q))
     
     def best_future_reward(self, state):
         """

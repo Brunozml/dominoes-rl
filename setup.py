@@ -9,6 +9,6 @@ setup(
     author_email='bzorrilla02@gmail.com',
     license='MIT',
     packages=['dominoes'],
-    scripts=['bin/dominoes'],
+    scripts=['scripts/dominoes'],
     test_suite='tests'
 )
