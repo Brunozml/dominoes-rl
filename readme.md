@@ -40,13 +40,10 @@ Currently, my use of the modified `dominoes` library is a mess. I just don't wan
 ## TO-DOs
 
 - [ ] Eventually, rewrite most of the original library by myself so that I can understand what is happening and what I can change. Use open_spiel and gymnasium as inspiration for project structure.
-- [x] write update_q_values and functions within
-- [x] Write the training and playing functions for my algorithm.
-- [x] visualize the q-values (could improve)
-- [x] setup function to play against my agent
-- [ ] standardize agent's functioning in accordence to the pre-existing player's in the library (`__call__` doesn't execute the move, it just re-orders the priority queue)
-- [ ] visualize learning process
-- [ ] run simulations of q_agent against itself, and other agents
+- [x] standardize agent's functioning in accordence to the pre-existing player's in the library (`__call__` doesn't execute the move, it just re-orders the priority queue)
+- [ ] fix `__call__` method for qlearner so that it allows for exploration
+- [x] visualize learning process.
+- [x] run simulations of q_agent against itself, and other agents
 - [ ] fix development install issues.
 
 ---
