@@ -1,7 +1,7 @@
 """
 code adapted from @abdw333. Interact with game
 
-- [ ] missing: include trained q_agent as one of the players
+- [X] include trained q_agent as one of the players
 
 """
 

@@ -2,7 +2,8 @@ import copy
 import dominoes
 import operator
 
-def make_moves(game, player=dominoes.players.identity):
+
+def make_moves(game, player=dominoes.players.RandomPlayer()):
     '''
     For each of a Game object's valid moves, yields
     a tuple containing the move and the Game object
@@ -14,7 +15,7 @@ def make_moves(game, player=dominoes.players.identity):
                             game before making any
                             moves, to determine the
                             order in which they get
-                            made. The identity
+                            made. The random player
                             player is the default.
     '''
     # game is over - do not yield anything
@@ -37,8 +38,9 @@ def make_moves(game, player=dominoes.players.identity):
     game.make_move(*move)
     yield move, game
 
+
 def alphabeta(game, alpha_beta=(-float('inf'), float('inf')),
-              player=dominoes.players.identity):
+              player=dominoes.players.RandomPlayer()):
     '''
     Runs minimax search with alpha-beta pruning on the provided game.
 
@@ -49,7 +51,7 @@ def alphabeta(game, alpha_beta=(-float('inf'), float('inf')),
     :param callable player: player used to sort moves to be explored.
                             Ordering better moves first may significantly
                             reduce the amount of moves that need to be
-                            explored. The identity player is the default.
+                            explored. The random player is the default.
     '''
     # base case - game is over
     if game.result is not None:
@@ -59,12 +61,12 @@ def alphabeta(game, alpha_beta=(-float('inf'), float('inf')),
         # minimizing player
         best_value = float('inf')
         op = operator.lt
-        update = lambda ab, v: (ab[0], min(ab[1], v))
+        def update(ab, v): return (ab[0], min(ab[1], v))
     else:
         # maximizing player
         best_value = -float('inf')
         op = operator.gt
-        update = lambda ab, v: (max(ab[0], v), ab[1])
+        def update(ab, v): return (max(ab[0], v), ab[1])
 
     # recursive case - game is not over
     for move, new_game in make_moves(game, player):

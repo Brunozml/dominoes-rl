@@ -1,5 +1,5 @@
 import collections
-import dominoes
+import dominoes.exceptions
 
 
 class Board:
@@ -45,7 +45,7 @@ class Board:
         try:
             return self.board[0].first
         except IndexError:
-            raise dominoes.EmptyBoardException('Cannot retrieve the left end of'
+            raise dominoes.exceptions.EmptyBoardException('Cannot retrieve the left end of'
                                                ' the board because it is empty!')
 
     def right_end(self):
@@ -56,7 +56,7 @@ class Board:
         try:
             return self.board[-1].second
         except IndexError:
-            raise dominoes.EmptyBoardException('Cannot retrieve the right end of'
+            raise dominoes.exceptions.EmptyBoardException('Cannot retrieve the right end of'
                                                ' the board because it is empty!')
 
     def _add_left(self, d):
@@ -74,7 +74,7 @@ class Board:
         elif d.second == self.left_end():
             self.board.appendleft(d)
         else:
-            raise dominoes.EndsMismatchException(
+            raise dominoes.exceptions.EndsMismatchException(
                 '{} cannot be added to the left of'
                 ' the board - values do not match!'.format(d)
             )
@@ -94,7 +94,7 @@ class Board:
         elif d.second == self.right_end():
             self.board.append(d.inverted())
         else:
-            raise dominoes.EndsMismatchException(
+            raise dominoes.exceptions.EndsMismatchException(
                 '{} cannot be added to the right of'
                 ' the board - values do not match!'.format(d)
             )
