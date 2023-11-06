@@ -2,6 +2,7 @@
 """
 ignore this script for now.
 """
+
 import dominoes
 import subprocess
 from dominoes.players import *

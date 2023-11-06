@@ -13,16 +13,17 @@ import sys
 
 # possible strategies for each of the players
 
-Q_AGENT = dominoes.players.QAgent()
-Q_AGENT.train(n=1000)
-PLAYER_SETTINGS = [
-    ('Human', None),
-    ('AI: random', dominoes.players.random),
-    ('AI: omniscient', dominoes.players.omniscient()),
-    ('AI: bota gorda', dominoes.players.bota_gorda),
-    ('AI: Q-learning agent', Q_AGENT)
-]
+# Q_AGENT = dominoes.players.QAgent()
+# Q_AGENT.train(n=1000)
+# PLAYER_SETTINGS = [
+#     ('Human', None),
+#     ('AI: random', dominoes.players.RandomPlayer()),
+#     ('AI: omniscient', dominoes.omniscient.Omniscient()),
+#     ('AI: bota gorda', dominoes.players.bota_gorda),
+#     ('AI: Q-learning agent', Q_AGENT)
+# ]
 
+PLAYERS = [QLearner(), RandomPlayer(), Omniscient(), QLearner()]
 
 def validated_input(prompt, validate_and_transform, error_message):
     '''

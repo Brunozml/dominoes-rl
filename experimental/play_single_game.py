@@ -2,26 +2,26 @@
 code adapted from @abdw333. Interact with game
 
 - [X] include trained q_agent as one of the players
-
+- []
 """
 
 #! /usr/bin/env python
 
 import dominoes
 import subprocess
-import sys
+from dominoes.players import *
+from dominoes.q_learner import QLearner
+from dominoes.omniscient import Omniscient
 
 # possible strategies for each of the players
-
-Q_AGENT = dominoes.players.QAgent()
-Q_AGENT.train(n=1000)
 PLAYER_SETTINGS = [
     ('Human', None),
-    ('AI: random', dominoes.players.random),
-    ('AI: omniscient', dominoes.players.omniscient()),
-    ('AI: bota gorda', dominoes.players.bota_gorda),
-    ('AI: Q-learning agent', Q_AGENT)
-]
+    ('AI: random', dominoes.players.RandomPlayer()),
+    ('AI: bota gorda', dominoes.players.BotaGorda()),
+    ('AI: omniscient', Omniscient()),
+    ('AI: RL', QLearner())
+    ]
+# possible strategies for each of the players
 
 
 def validated_input(prompt, validate_and_transform, error_message):
