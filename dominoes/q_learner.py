@@ -77,7 +77,7 @@ class QLearner(Player):
         self.epsilon = epsilon
         self.training_error = []
 
-    def __call__(self, game, epsilon=True):
+    def __call__(self, game, epsilon = True):
         """
         Given a game, choose a move to make based on the current state of the game.
         """

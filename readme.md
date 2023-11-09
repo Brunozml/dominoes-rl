@@ -1,18 +1,22 @@
-# dominoes: a Python library for the game of dominoes, with an accompanying CLI and AI players
-
 # Dominoes RL Project
 
-## In this project, I build on top of [Alan Wagner's](https://dominoes.readthedocs.io/en/latest/#board) Dominoes python library to create reinforecement learning agents that improve through self-play
+In this project, the aim is to build RL agents for the sequential, cooperative game of 2v2 dominoes. The project is built on top of [Alan Wagner's](https://dominoes.readthedocs.io/en/latest/#board) Dominoes python library to create reinforecement learning agents that improve through self-play.
 
-# How to Run
+<p align="center">
+  <img src="./docs/_static/wooden_dominoes.jpg" alt="Alt text">
+</p>
 
-- 1. Install repo and requirements
+# Installation
+
+- 1. Fork repo
+- 2. install `requirements.txt`
+- 3. install in development mode:
 
 ```
 pip install -e .
 ```
 
-- 2. `run train_agent.py`
+- 4. Try the files within `main` and `notebooks`!
 
 ```
 python train_agent.py
@@ -24,31 +28,60 @@ python train_agent.py
 
 The project is currently organized as follows:
 
-- `/dominoes_lib` includes the most important files in Wagner's library, getting rid of everything I considered unnecessary and therefore distracting.
-- `play.py` is basically the original CLI in the library. I included it as a normal python script, which can be ran by typing `python play.py` in the command line.
+- `/dominoes` includes the most important files; the game dynamics and the different players are stored here.
+- `play_single_game.py` is an adapted CLI for this project. It allows for playing a single game with human player(s) and AI players.
 - `/notebooks` contains jupyter notebooks that experiment with the library. For the moment, its not really working (I can't import the local library)
-- `q_agent.py` is what I'm currently working on. I based the function structure on **CS50's Nim exercise**. I have yet to implement several of the functions. The biggest challenge is to ensure correct functionining with the original dominoes library.
 
 ---
 
-# Notes
+# TO-DOs
 
-Currently, my use of the modified `dominoes` library is a mess. I just don't want to be constrained in my project organization by the original authors decisions.
-
----
-
-## TO-DOs
-
-- [ ] Eventually, rewrite most of the original library by myself so that I can understand what is happening and what I can change. Use open_spiel and gymnasium as inspiration for project structure.
 - [x] standardize agent's functioning in accordence to the pre-existing player's in the library (`__call__` doesn't execute the move, it just re-orders the priority queue)
-- [ ] fix `__call__` method for qlearner so that it allows for exploration
 - [x] visualize learning process.
 - [x] run simulations of q_agent against itself, and other agents
-- [ ] fix development install issues.
+- [ ] _fix `__call__` method for qlearner so that it avoids exploration during playtime._
+- [ ] *gradually improve state representation (e.g. include the board and counts)*
+- [ ] Integrate with/adapt to `open_spiel`; similar game already written.
+- [ ] try cfr_agent
 
 ---
 
----
+# Resources
+
+In this section, relevant papers, resources, and other links are listed. The list is not exhaustive, and is meant to be a starting point for further research.
+
+<font color="orange"><b>~</b></font>: To revisit
+
+<font color="red"><b>N</b></font>: Not read
+
+<font color="green"><b>Y</b></font>: Read
+
+| Papers                                                                      | Category              | Reference                                                                                                                                                   | Status                               |
+| --------------------------------------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| Connecting Optimal Ex-Ante Collusion in Teams to Extensive-Form Correlation | TMCor                 | [Farina et al. '21](https://proceedings.mlr.press/v139/farina21a.html)                                                                                      | <font color="orange"><b>~</b></font> |
+| Multi-Agent Coordination in Adversarial Environments                        | MARL                  | [Cacciamani et al. '21](https://arxiv.org/pdf/2102.05026.pdf)                                                                                               | <font color="green"><b>Y</b></font>  |
+| Steering No-Regret Learners to Optimal Equilibria                           | Equilibria\*          | [Zhang et al. '23](https://arxiv.org/abs/2306.05221)                                                                                                        | <font color="orange"><b>~</b></font> |
+| Hindsight and Sequential Rationality of Correlated Play                     | Sequential Equilibria | [Morrill. et al '20](https://arxiv.org/abs/2012.05874)                                                                                                      | <font color="red"><b>N</b></font>    |
+| Learning to Correlate in Multi-Player General-Sum Sequential Games          | Sequential Equilibria | [Celli et al. '19](https://arxiv.org/abs/1910.06228)                                                                                                        | <font color="orange"><b>~</b></font> |
+| No-Regret Learning Dynamics for Extensive-Form Correlated Equilibrium       | Sequential Equilibria | [Celli et al. '20](https://arxiv.org/abs/2004.00603)                                                                                                        | <font color="green"><b>Y</b></font>  |
+| Coarse Correlation in Extensive-Form Games                                  | Sequential Equlibria  | [Farina et al. '20](https://arxiv.org/abs/1908.09893)                                                                                                       | <font color="orange"><b>~</b></font> |
+| Efficient Deviation Types and Learning for Hindsight Rationality            | EFR                   | [Morrill et al. '22](https://arxiv.org/pdf/2102.06973.pdf)                                                                                                  | <font color="red"><b>N</b></font>    |
+| Counterfactual Regret Minimization (CFR)                                    | Tabular               | [Zinkevich et al '08](https://poker.cs.ualberta.ca/publications/NIPS07-cfr.pdf), [Neller &amp; Lanctot '13](http://modelai.gettysburg.edu/2013/cfr/cfr.pdf) | <font color="red"><b>N</b></font>    |
+| Deep CFR                                                                    | MARL                  | [Brown et al. '18](https://arxiv.org/abs/1811.00164)                                                                                                        | <font color="red"><b>N</b></font>    |
+| Mastering Stratego                                                          | Applications (MARL)   | [Perolat et al. '22](https://www.science.org/doi/full/10.1126/science.add4679)                                                                              | <font color="red"><b>N</b></font>    |
+| Cicero: LLMs with strategic reasoning                                       | Applications          | [FAIR '22](https://www.science.org/doi/10.1126/science.ade9097)                                                                                             | <font color="orange"><b>~</b></font> |
+| A Generalist Agent (Gato)                                                   | Applications          | [Reed et al. '22](https://arxiv.org/abs/2205.06175)                                                                                                         | <font color="green"><b>Y</b></font>  |
+| Superhuman AI for multiplayer poker                                         | Applications (CFR)    | [Brown and Sandholm '19](https://www.science.org/doi/full/10.1126/science.aay2400)                                                                          | <font color="green"><b>Y</b></font>  |
+| &alpha;-Rank                                                                | Eval. / Viz.          | [Omidhsafiei et al. '19](https://www.nature.com/articles/s41598-019-45619-9), [arXiv](https://arxiv.org/abs/1903.01373)                                     | <font color="red"><b>N</b></font>    |
+| Nash Averaging                                                              | Eval. / Viz.          | [Balduzzi et al. '18](https://arxiv.org/abs/1806.02643)                                                                                                     | <font color="red"><b>N</b></font>    |
+| Paper title                                                                 | theme                 | [authors](Link)                                                                                                                                             | <font color="orange"><b>~</b></font> |
+
+**Other Resources**
+
+- CMU 'Computational Game Solving' Course, Fall '23: [link](https://www.cs.cmu.edu/~sandholm/cs15-888F23/)
+- CMU 'Computational Game Solving' Course, Fall '21: [link](https://www.cs.cmu.edu/~sandholm/cs15-888F21/)
+- OpenSpiel
+- DeepMind applying for MARL patents now?? [link](https://patentimages.storage.googleapis.com/9d/c6/3b/37b53db927a39b/US20230244936A1.pdf)
 
 ---
 
@@ -197,41 +230,3 @@ Players are Python objects with a `__call__` method defined to accept a Game ins
 ---
 
 ---
-
----
-
-# Project Resources
-
-<font color="orange"><b>~</b></font>: To revisit
-
-<font color="red"><b>N</b></font>: Not read
-
-<font color="green"><b>Y</b></font>: Read
-
-| Papers                                                                      | Category              | Reference                                                                                                                                                   | Status                               |
-| --------------------------------------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| Connecting Optimal Ex-Ante Collusion in Teams to Extensive-Form Correlation | TMCor                 | [Farina et al. '21](https://proceedings.mlr.press/v139/farina21a.html)                                                                                      | <font color="orange"><b>~</b></font> |
-| Multi-Agent Coordination in Adversarial Environments                        | MARL                  | [Cacciamani et al. '21](https://arxiv.org/pdf/2102.05026.pdf)                                                                                               | <font color="green"><b>Y</b></font>  |
-| Steering No-Regret Learners to Optimal Equilibria                           | Equilibria\*          | [Zhang et al. '23](https://arxiv.org/abs/2306.05221)                                                                                                        | <font color="orange"><b>~</b></font> |
-| Hindsight and Sequential Rationality of Correlated Play                     | Sequential Equilibria | [Morrill. et al '20](https://arxiv.org/abs/2012.05874)                                                                                                      | <font color="red"><b>N</b></font>    |
-| Learning to Correlate in Multi-Player General-Sum Sequential Games          | Sequential Equilibria | [Celli et al. '19](https://arxiv.org/abs/1910.06228)                                                                                                        | <font color="orange"><b>~</b></font> |
-| No-Regret Learning Dynamics for Extensive-Form Correlated Equilibrium       | Sequential Equilibria | [Celli et al. '20](https://arxiv.org/abs/2004.00603)                                                                                                        | <font color="green"><b>Y</b></font>  |
-| Coarse Correlation in Extensive-Form Games                                  | Sequential Equlibria  | [Farina et al. '20](https://arxiv.org/abs/1908.09893)                                                                                                       | <font color="orange"><b>~</b></font> |
-| Efficient Deviation Types and Learning for Hindsight Rationality            | EFR                   | [Morrill et al. '22](https://arxiv.org/pdf/2102.06973.pdf)                                                                                                  | <font color="red"><b>N</b></font>    |
-| Counterfactual Regret Minimization (CFR)                                    | Tabular               | [Zinkevich et al '08](https://poker.cs.ualberta.ca/publications/NIPS07-cfr.pdf), [Neller &amp; Lanctot '13](http://modelai.gettysburg.edu/2013/cfr/cfr.pdf) | <font color="red"><b>N</b></font>    |
-| Deep CFR                                                                    | MARL                  | [Brown et al. '18](https://arxiv.org/abs/1811.00164)                                                                                                        | <font color="red"><b>N</b></font>    |
-| Mastering Stratego                                                          | Applications (MARL)   | [Perolat et al. '22](https://www.science.org/doi/full/10.1126/science.add4679)                                                                              | <font color="red"><b>N</b></font>    |
-| Cicero: LLMs with strategic reasoning                                       | Applications          | [FAIR '22](https://www.science.org/doi/10.1126/science.ade9097)                                                                                             | <font color="orange"><b>~</b></font> |
-| A Generalist Agent (Gato)                                                   | Applications          | [Reed et al. '22](https://arxiv.org/abs/2205.06175)                                                                                                         | <font color="green"><b>Y</b></font>  |
-| Superhuman AI for multiplayer poker                                         | Applications (CFR)    | [Brown and Sandholm '19](https://www.science.org/doi/full/10.1126/science.aay2400)                                                                          | <font color="green"><b>Y</b></font>  |
-| &alpha;-Rank                                                                | Eval. / Viz.          | [Omidhsafiei et al. '19](https://www.nature.com/articles/s41598-019-45619-9), [arXiv](https://arxiv.org/abs/1903.01373)                                     | <font color="red"><b>N</b></font>    |
-| Nash Averaging                                                              | Eval. / Viz.          | [Balduzzi et al. '18](https://arxiv.org/abs/1806.02643)                                                                                                     | <font color="red"><b>N</b></font>    |
-Paper title | theme | [authors](Link)| <font color="orange"><b>~</b></font>
-
-
-Other Resources
-
-- CMU 'Computational Game Solving' Course, Fall '23: [link](https://www.cs.cmu.edu/~sandholm/cs15-888F23/)
-- CMU 'Computational Game Solving' Course, Fall '21: [link](https://www.cs.cmu.edu/~sandholm/cs15-888F21/)
-- OpenSpiel
-- DeepMind applying for MARL patents now?? [link](https://patentimages.storage.googleapis.com/9d/c6/3b/37b53db927a39b/US20230244936A1.pdf)

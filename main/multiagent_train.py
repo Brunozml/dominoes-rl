@@ -7,4 +7,4 @@ from dominoes.omniscient import Omniscient
 
 PLAYERS = [QLearner(), RandomPlayer(), Omniscient(), QLearner()]
 
-train(PLAYERS, n=100, tiles_per_hand= 2, verbose = True)
+train(PLAYERS, n=10_000, tiles_per_hand= 2, verbose = True)
